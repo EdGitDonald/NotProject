@@ -1,0 +1,62 @@
+.notificationmanager-container{
+    border: 1px solid red;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.notification-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.urgency-container{
+    display: flex;
+    width: 50%;
+    justify-content: space-around;
+}
+
+.box{
+    width: 20px;
+    height: auto;
+    border-radius: 4px 0px 0px 4px;
+    margin-right: 10px;   
+}
+
+.outline{
+    border: 0.5px solid black;
+    border-radius: 4px;
+    display: flex;  
+}
+
+.red{
+    background-color: #b21f1a;
+}
+
+.yellow{
+    background-color: #ecd100;
+}
+
+.green{
+    background-color: #008f00;
+}
+
+.response-container{
+    border: 1px solid black;
+    height: auto;
+    display: flex;
+}
+
+.urgency-table{
+    width: 66%;
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;  
+}
+
+.response-centre{
+    border: 1px black solid;
+    width: 35%;
+}

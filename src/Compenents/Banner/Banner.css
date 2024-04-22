@@ -1,0 +1,13 @@
+.banner-container{
+    background-color: yellow;
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+
+
