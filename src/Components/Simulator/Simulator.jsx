@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Simulator.css';
 
-function Simulator() {
+function Simulator({onSubmit}) {
   // State variables to store notification details
   const [sender, setSender] = useState('');
   const [message, setMessage] = useState('');
@@ -11,9 +11,31 @@ function Simulator() {
   // Function to generate random content for inputs
   const generateRandomContent = () => {
     const senders = ['John Doe', 'Jane Smith', 'Alice Johnson'];
-    const messages = ['Task reminder', 'Meeting notification', 'Project update'];
+    const messages = [
+      'Task reminder',
+      'Meeting notification',
+      'Project update',
+      'Deadline reminder',
+      'Team status update',
+      'Client meeting confirmation',
+      'New project assignment',
+      'Training session reminder',
+      'Feedback request',
+      'Budget review meeting notice',
+      'Product launch update',
+      'Employee appreciation announcement',
+      'Policy change notification',
+      'Holiday office closure notice',
+      'Performance evaluation reminder',
+      'Internal training announcement',
+      'Sales target achievement celebration',
+      'Security protocol update',
+      'Customer support meeting agenda',
+      'Team-building event invitation'
+    ];
     const priorities = ['High', 'Medium', 'Low'];
-    const sources = ['Company A', 'Company B', 'Service X'];
+    const sources = ['Slack', 'Microsoft Teams', 'Skype', 'Google Hangouts', 'Zoom', 'WhatsApp', 'Facebook Workplace', 'LinkedIn', 'Telegram', 'Discord', 'HipChat', 'Yammer', 'Mattermost', 'Flock', 'Rocket.Chat'];
+
 
     const randomSender = senders[Math.floor(Math.random() * senders.length)];
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
