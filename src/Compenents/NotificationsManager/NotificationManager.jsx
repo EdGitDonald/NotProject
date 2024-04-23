@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './NotificationManager.css';
 
 function NotificationManager({ notifications, onDelete }) {
+  const [selectedNotification, setSelectedNotification] = useState(null);
+
+  const handleNotificationClick = (notification) => {
+    setSelectedNotification(notification);
+  };
+
   const renderNotifications = (priority) => {
     return notifications
       .filter((notification) => notification.priority === priority)
       .map((notification, index) => (
-        <div key={index} className='notification-card'>
+        <div key={index} className='notification-card' onClick={() => handleNotificationClick(notification)}>
           <p>Sender: {notification.sender}</p>
           <p>Message: {notification.message}</p>
           <p>Priority: {notification.priority}</p>
@@ -57,6 +63,14 @@ function NotificationManager({ notifications, onDelete }) {
         <div className='response-centre'>
           <div className='content-box'>
             <p>Content</p>
+            {selectedNotification && (
+              <>
+                <p>Sender: {selectedNotification.sender}</p>
+                <p>Message: {selectedNotification.message}</p>
+                <p>Priority: {selectedNotification.priority}</p>
+                <p>Source: {selectedNotification.source}</p>
+              </>
+            )}
           </div>
           <div className='response-box'>
             <p>Response</p>
@@ -72,4 +86,5 @@ function NotificationManager({ notifications, onDelete }) {
 }
 
 export default NotificationManager;
+
 
