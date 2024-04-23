@@ -1,6 +1,6 @@
 .notificationmanager-container{
     border: 1px solid red;
-    width: 70%;
+    width: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

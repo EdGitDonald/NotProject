@@ -1,0 +1,10 @@
+.homepage-container {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Tasktracker takes 1/3, NotificationManager takes 2/3 */
+  }
+  
+  .left-column, .right-column {
+    height: 100%;
+    overflow-y: auto; /* Enable scrolling if content overflows */
+  }

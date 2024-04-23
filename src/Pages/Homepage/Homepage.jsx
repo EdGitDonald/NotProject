@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import './Homepage.css'
 import NotificationManager from '../../Components/NotificationsManager/NotificationManager';
 import Simulator from '../../Components/Simulator/Simulator';
+import Tasktracker from '../../Components/Tasktracker/Tasktracker';
 
 
 
@@ -28,9 +30,15 @@ function Homepage() {
 
 
   return (
-    <div>
+    <div className='homepage-container'>
+      <div className='left-column'>
+      <Tasktracker/>
+      </div>
+      <div className='right-column'>
       <NotificationManager notifications={notifications} onDelete={deleteNotification} onSubmitResponse={handleResponseSubmission}/>
       <Simulator onSubmit={addNotification} setSelectedNotification={setSelectedNotification} />
+      </div>
+     
     </div>
   );
 }
