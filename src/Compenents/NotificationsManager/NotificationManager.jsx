@@ -3,14 +3,24 @@ import './NotificationManager.css';
 
 function NotificationManager({ notifications, onDelete }) {
   const [selectedNotification, setSelectedNotification] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleNotificationClick = (notification) => {
-    // Toggle selection: If the clicked notification is already selected, deselect it. Otherwise, select it.
-    setSelectedNotification(selectedNotification === notification ? null : notification);
+    setSelectedNotification(notification);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredNotifications = notifications.filter(
+    (notification) =>
+      notification.sender.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      notification.source.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const renderNotifications = (priority) => {
-    return notifications
+    return filteredNotifications
       .filter((notification) => notification.priority === priority)
       .map((notification, index) => (
         <div
@@ -31,6 +41,14 @@ function NotificationManager({ notifications, onDelete }) {
     <div className='notificationmanager-container'>
       <div className='notification-container'>
         <h2>Notification Manager</h2>
+        <div className='search-container'>
+          <input
+            type='text'
+            placeholder='Search by Sender Name or Source'
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+        </div>
         <div className='urgency-container'>
           <div className='outline'>
             <p className='box red'></p>
@@ -91,6 +109,8 @@ function NotificationManager({ notifications, onDelete }) {
 }
 
 export default NotificationManager;
+
+
 
 
 
