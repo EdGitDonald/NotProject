@@ -1,6 +1,6 @@
 .notificationmanager-container{
     border: 1px solid red;
-    width: 50%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -72,5 +72,19 @@
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3); /* Add box shadow to highlight selected notification */
   }
 
+  .notification-scrollable {
+    max-height: 300px; /* Adjust as needed */
+    overflow-y: auto;
+  }
 
+  .expand-tab {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .expand-tab:hover {
+    background-color: #e0e0e0;
+  }
   

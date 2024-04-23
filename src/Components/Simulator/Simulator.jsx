@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Simulator.css';
 
-function Simulator({ onSubmit }) {
+function Simulator() {
   // State variables to store notification details
   const [sender, setSender] = useState('');
   const [message, setMessage] = useState('');

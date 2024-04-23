@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import NotificationManager from '../../Compenents/NotificationsManager/NotificationManager';
-import Simulator from '../../Compenents/Simulator/Simulator';
+import NotificationManager from '../../Components/NotificationsManager/NotificationManager';
+import Simulator from '../../Components/Simulator/Simulator';
 
 
 
 function Homepage() {
+  const [selectedNotification, setSelectedNotification] = useState(null);
   const [notifications, setNotifications] = useState([]);
 
   const addNotification = (notification) => {
@@ -16,11 +17,20 @@ function Homepage() {
     setNotifications(updatedNotifications);
   };
 
+  const handleResponseSubmission = (response) => {
+    // Handle the response submission logic
+    console.log('Response submitted:', response);
+    // Remove the notification from the list
+    setNotifications(notifications.filter(notification => notification.response !== response));
+    // Clear the selected notification
+    setSelectedNotification(null);
+  };
+
 
   return (
     <div>
-      <NotificationManager notifications={notifications} onDelete={deleteNotification}/>
-      <Simulator onSubmit={addNotification} />
+      <NotificationManager notifications={notifications} onDelete={deleteNotification} onSubmitResponse={handleResponseSubmission}/>
+      <Simulator onSubmit={addNotification} setSelectedNotification={setSelectedNotification} />
     </div>
   );
 }
