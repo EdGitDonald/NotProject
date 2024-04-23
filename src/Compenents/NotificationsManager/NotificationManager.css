@@ -65,5 +65,10 @@
     border: 1px solid red;
     padding: 10px;
     margin-bottom: 10px;
+    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+  }
+
+  .notification-card.selected {
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3); /* Add box shadow to highlight selected notification */
   }
   

@@ -5,14 +5,19 @@ function NotificationManager({ notifications, onDelete }) {
   const [selectedNotification, setSelectedNotification] = useState(null);
 
   const handleNotificationClick = (notification) => {
-    setSelectedNotification(notification);
+    // Toggle selection: If the clicked notification is already selected, deselect it. Otherwise, select it.
+    setSelectedNotification(selectedNotification === notification ? null : notification);
   };
 
   const renderNotifications = (priority) => {
     return notifications
       .filter((notification) => notification.priority === priority)
       .map((notification, index) => (
-        <div key={index} className='notification-card' onClick={() => handleNotificationClick(notification)}>
+        <div
+          key={index}
+          className={`notification-card ${selectedNotification === notification ? 'selected' : ''}`}
+          onClick={() => handleNotificationClick(notification)}
+        >
           <p>Sender: {notification.sender}</p>
           <p>Message: {notification.message}</p>
           <p>Priority: {notification.priority}</p>
@@ -86,5 +91,7 @@ function NotificationManager({ notifications, onDelete }) {
 }
 
 export default NotificationManager;
+
+
 
 
