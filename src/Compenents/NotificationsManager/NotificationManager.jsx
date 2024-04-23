@@ -19,6 +19,10 @@ function NotificationManager({ notifications, onDelete }) {
       notification.source.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const countNotifications = (priority) => {
+    return filteredNotifications.filter((notification) => notification.priority === priority).length;
+  };
+
   const renderNotifications = (priority) => {
     return filteredNotifications
       .filter((notification) => notification.priority === priority)
@@ -52,15 +56,15 @@ function NotificationManager({ notifications, onDelete }) {
         <div className='urgency-container'>
           <div className='outline'>
             <p className='box red'></p>
-            <p className='box'>N</p>
+            <p className='box'>{countNotifications('High')}</p>
           </div>
           <div className='outline'>
             <p className='box yellow'></p>
-            <p className='box'>N</p>
+            <p className='box'>{countNotifications('Medium')}</p>
           </div>
           <div className='outline'>
             <p className='box green'></p>
-            <p className='box'>N</p>
+            <p className='box'>{countNotifications('Low')}</p>
           </div>
         </div>
       </div>
@@ -109,6 +113,7 @@ function NotificationManager({ notifications, onDelete }) {
 }
 
 export default NotificationManager;
+
 
 
 
