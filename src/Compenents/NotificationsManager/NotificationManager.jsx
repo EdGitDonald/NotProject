@@ -41,6 +41,21 @@ function NotificationManager({ notifications, onDelete }) {
       ));
   };
 
+  const renderMoreFromSender = () => {
+    if (!selectedNotification) return null;
+    const sender = selectedNotification.sender;
+    const notificationsFromSender = filteredNotifications.filter((notification) => notification.sender === sender);
+    return notificationsFromSender.map((notification, index) => (
+      <div key={index} className="notification-card">
+        <p>Sender: {notification.sender}</p>
+        <p>Message: {notification.message}</p>
+        <p>Priority: {notification.priority}</p>
+        <p>Source: {notification.source}</p>
+        <button onClick={() => onDelete(notification)}>Delete</button>
+      </div>
+    ));
+  };
+
   return (
     <div className='notificationmanager-container'>
       <div className='notification-container'>
@@ -92,10 +107,10 @@ function NotificationManager({ notifications, onDelete }) {
             <p>Content</p>
             {selectedNotification && (
               <>
-                <p>Sender: {selectedNotification.sender}</p>
-                <p>Message: {selectedNotification.message}</p>
-                <p>Priority: {selectedNotification.priority}</p>
-                <p>Source: {selectedNotification.source}</p>
+                <div className="more-from-sender">
+                  <h3>More from {selectedNotification.sender}</h3>
+                  {renderMoreFromSender()}
+                </div>
               </>
             )}
           </div>
@@ -113,6 +128,8 @@ function NotificationManager({ notifications, onDelete }) {
 }
 
 export default NotificationManager;
+
+
 
 
 
