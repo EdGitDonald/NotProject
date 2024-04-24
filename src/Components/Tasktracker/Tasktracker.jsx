@@ -149,6 +149,17 @@ function Tasktracker() {
                   </div>
                 ))}
               </div>
+              {/* Progress bar */}
+              <div className='progress-bar'>
+                <div
+                  className='progress-bar-fill'
+                  style={{
+                    width: `${
+                      (task.steps.filter((step) => step.completed).length / task.steps.length) * 100
+                    }%`
+                  }}
+                ></div>
+              </div>
             </li>
           ))}
         </ul>
@@ -158,6 +169,7 @@ function Tasktracker() {
 }
 
 export default Tasktracker;
+
 
 
 
