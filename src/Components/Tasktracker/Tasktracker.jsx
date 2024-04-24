@@ -11,13 +11,7 @@ function Tasktracker() {
   const [brief, setBrief] = useState('');
   const [showForm, setShowForm] = useState(false); // State to manage visibility of the form
   const [newStep, setNewStep] = useState(''); // State to store new step being added
-
-   // Filter states
-   const [filterDate, setFilterDate] = useState('');
-   const [filterAssignedBy, setFilterAssignedBy] = useState('');
-   const [filterTaskName, setFilterTaskName] = useState('');
-   const [sortByDate, setSortByDate] = useState(''); // State to determine sorting order
- 
+  const [sortByDate, setSortByDate] = useState(''); // State to determine sorting order
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -66,24 +60,21 @@ function Tasktracker() {
   };
 
   const handleDeleteTask = (taskId) => {
-    setTasks(tasks.filter(task => task.id !== taskId));
+    const updatedSortedTasks = sortedTasks.filter(task => task.id !== taskId);
+    setTasks(updatedSortedTasks); // Update the original tasks as well for consistency
   };
 
-    // Filter function
-    const filteredTasks = tasks.filter(task => {
-        // Filter by date
-        if (filterDate && task.dueDate !== filterDate) return false;
-        // Filter by assigned by
-        if (filterAssignedBy && task.assignedBy !== filterAssignedBy) return false;
-        // Filter by task name
-        if (filterTaskName && !task.taskName.toLowerCase().includes(filterTaskName.toLowerCase())) return false;
-        return true;
-      });
+  // Progress bar calculation
+  const getProgress = (task) => {
+    const totalSteps = task.steps.length;
+    const completedSteps = task.steps.filter(step => step.completed).length;
+    return (totalSteps === 0 ? 0 : (completedSteps / totalSteps) * 100);
+  };
 
-    // Sorting function
-  const sortedTasks = sortByDate === 'mostRecent' ? [...filteredTasks].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)) :
-  sortByDate === 'oldest' ? [...filteredTasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)) :
-  filteredTasks;
+  // Sorting function
+  const sortedTasks = sortByDate === 'mostRecent' ? [...tasks].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)) :
+    sortByDate === 'oldest' ? [...tasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)) :
+    tasks;
 
   return (
     <div className='tasktracker-container'>
@@ -160,8 +151,8 @@ function Tasktracker() {
         <h3>Tasks</h3>
         <div className='filter-section'>
           <h4>Filter</h4>
-        {/* Sorting options */}
-        <div>
+          {/* Sorting options */}
+          <div>
             <label>
               Sort by Date:
               <select value={sortByDate} onChange={(e) => setSortByDate(e.target.value)}>
@@ -179,30 +170,23 @@ function Tasktracker() {
               <p>{task.taskName} - {task.dueDate}</p>
               <p>Assigned By : {task.assignedBy}</p>
               <p>Brief : {task.brief}</p>
-              <div>
+            <div>
                 <h4>Steps</h4>
-                {tasks[task.originalIndex].steps.map((step, stepIndex) => (
+                {tasks[task.originalIndex].steps && tasks[task.originalIndex].steps.map((step, stepIndex) => (
                 <div key={stepIndex}>
                 <input
-                type='checkbox'
-                checked={step.completed}
-                onChange={() => handleToggleStep(task.originalIndex, stepIndex)}
+                 type='checkbox'
+                 checked={step.completed}
+                 onChange={() => handleToggleStep(task.originalIndex, stepIndex)}
                 />
                 <label>{step.name}</label>
+            </div>
+))}
               </div>
-             ))}
+              {/* Progress bar */}
+              <div className='progress-bar'>
+                <div className='progress-bar-fill' style={{ width: `${getProgress(task)}%` }}></div>
               </div>
-             {/* Progress bar */}
-             <div className='progress-bar'>
-             <div
-              className='progress-bar-fill'
-              style={{
-              width: `${
-              (tasks[task.originalIndex].steps.filter((step) => step.completed).length / tasks[task.originalIndex].steps.length) * 100
-              }%`
-              }}
-           ></div>
-         </div>
               {/* Delete button */}
               <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
             </li>
@@ -214,6 +198,8 @@ function Tasktracker() {
 }
 
 export default Tasktracker;
+
+
 
 
 
