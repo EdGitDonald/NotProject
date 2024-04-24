@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import './Tasktracker.css';
 
 function Tasktracker() {
-    const [tasks, setTasks] = useState([]);
-    const [taskName, setTaskName] = useState('');
-    const [steps, setSteps] = useState('');
-    const [dueDate, setDueDate] = useState('');
-    const [assignedBy, setAssignedBy] = useState('');
-    const [participants, setParticipants] = useState('');
-    const [brief, setBrief] = useState('');
-    const [showForm, setShowForm] = useState(false); // State to manage visibility of the form
+  const [tasks, setTasks] = useState([]);
+  const [taskName, setTaskName] = useState('');
+  const [steps, setSteps] = useState([]);
+  const [dueDate, setDueDate] = useState('');
+  const [assignedBy, setAssignedBy] = useState('');
+  const [participants, setParticipants] = useState('');
+  const [brief, setBrief] = useState('');
+  const [showForm, setShowForm] = useState(false); // State to manage visibility of the form
+  const [newStep, setNewStep] = useState(''); // State to store new step being added
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -18,28 +19,42 @@ function Tasktracker() {
       alert('Please enter a task name');
       return;
     }
-     // Add the new task to the tasks list
-     const newTask = {
-        id: Date.now(), // Assign a unique ID to each task (using timestamp)
-        taskName,
-        steps,
-        dueDate,
-        assignedBy,
-        participants,
-        brief
-      };
-      setTasks([...tasks, newTask]);
-      // Reset form fields
-      resetForm();
+    // Add the new task to the tasks list
+    const newTask = {
+      id: Date.now(), // Assign a unique ID to each task (using timestamp)
+      taskName,
+      steps,
+      dueDate,
+      assignedBy,
+      participants,
+      brief
     };
+    setTasks([...tasks, newTask]);
+    // Reset form fields
+    resetForm();
+  };
 
   const resetForm = () => {
     setTaskName('');
-    setSteps('');
+    setSteps([]);
     setDueDate('');
     setAssignedBy('');
     setParticipants('');
     setBrief('');
+    setNewStep('');
+  };
+
+  const handleAddStep = () => {
+    if (newStep.trim()) {
+      setSteps([...steps, { name: newStep, completed: false }]);
+      setNewStep(''); // Clear the input field
+    }
+  };
+
+  const handleToggleStep = (taskIndex, stepIndex) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[taskIndex].steps[stepIndex].completed = !updatedTasks[taskIndex].steps[stepIndex].completed;
+    setTasks(updatedTasks);
   };
 
   return (
@@ -62,11 +77,29 @@ function Tasktracker() {
               onChange={(e) => setTaskName(e.target.value)}
               required
             />
-            <textarea
-              placeholder='Enter steps'
-              value={steps}
-              onChange={(e) => setSteps(e.target.value)}
-            />
+            {/* Steps checkboxes */}
+            <div>
+              <h3>Steps</h3>
+              {steps.map((step, index) => (
+                <div key={index}>
+                  <input
+                    type='checkbox'
+                    checked={step.completed}
+                    onChange={() => handleToggleStep(index)}
+                  />
+                  <label>{step.name}</label>
+                </div>
+              ))}
+              <input
+                type='text'
+                placeholder='Add step'
+                value={newStep}
+                onChange={(e) => setNewStep(e.target.value)}
+              />
+              <button type='button' onClick={handleAddStep}>
+                Add Step
+              </button>
+            </div>
             <input
               type='date'
               placeholder='Due date'
@@ -98,9 +131,24 @@ function Tasktracker() {
       <div className='task-list'>
         <h3>Tasks</h3>
         <ul>
-          {tasks.map((task) => (
+          {tasks.map((task, taskIndex) => (
             <li key={task.id}>
-              {task.taskName} - {task.dueDate}
+              <p>{task.taskName} - {task.dueDate}</p>
+              <p>Assigned By : {task.assignedBy}</p>
+              <p>Brief : {task.brief}</p>
+              <div>
+                <h4>Steps</h4>
+                {task.steps.map((step, stepIndex) => (
+                  <div key={stepIndex}>
+                    <input
+                      type='checkbox'
+                      checked={step.completed}
+                      onChange={() => handleToggleStep(taskIndex, stepIndex)}
+                    />
+                    <label>{step.name}</label>
+                  </div>
+                ))}
+              </div>
             </li>
           ))}
         </ul>
@@ -110,6 +158,9 @@ function Tasktracker() {
 }
 
 export default Tasktracker;
+
+
+
 
 
 

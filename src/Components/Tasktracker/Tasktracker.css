@@ -1,13 +1,13 @@
 
 .tasktracker-container {
   height: 100%;
-  width: 30%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   border: 1px solid blue;
 }
 
 .utility-tab {
-  flex-grow: 1; /* Tasktracker takes up 1/3 of the screen vertically */
+  border: 1px solid red;
   overflow-y: auto; /* Enable scrolling if content overflows */
 }
