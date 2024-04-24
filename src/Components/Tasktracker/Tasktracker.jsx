@@ -57,6 +57,10 @@ function Tasktracker() {
     setTasks(updatedTasks);
   };
 
+  const handleDeleteTask = (taskId) => {
+    setTasks(tasks.filter(task => task.id !== taskId));
+  };
+
   return (
     <div className='tasktracker-container'>
       <h2>Tasktracker</h2>
@@ -131,19 +135,19 @@ function Tasktracker() {
       <div className='task-list'>
         <h3>Tasks</h3>
         <ul>
-          {tasks.map((task, taskIndex) => (
+          {tasks.map((task) => (
             <li key={task.id}>
               <p>{task.taskName} - {task.dueDate}</p>
               <p>Assigned By : {task.assignedBy}</p>
               <p>Brief : {task.brief}</p>
               <div>
                 <h4>Steps</h4>
-                {task.steps.map((step, stepIndex) => (
-                  <div key={stepIndex}>
+                {task.steps.map((step, index) => (
+                  <div key={index}>
                     <input
                       type='checkbox'
                       checked={step.completed}
-                      onChange={() => handleToggleStep(taskIndex, stepIndex)}
+                      onChange={() => handleToggleStep(index)}
                     />
                     <label>{step.name}</label>
                   </div>
@@ -160,6 +164,8 @@ function Tasktracker() {
                   }}
                 ></div>
               </div>
+              {/* Delete button */}
+              <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
             </li>
           ))}
         </ul>
@@ -169,6 +175,7 @@ function Tasktracker() {
 }
 
 export default Tasktracker;
+
 
 
 

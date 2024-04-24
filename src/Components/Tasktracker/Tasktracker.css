@@ -12,6 +12,10 @@
   overflow-y: auto; /* Enable scrolling if content overflows */
 }
 
+.task-list{
+    border: 1px solid green;
+    overflow-y: auto;
+}
 
 .progress-bar {
     width: 100%;
