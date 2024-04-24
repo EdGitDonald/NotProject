@@ -3,6 +3,7 @@ import './Homepage.css'
 import NotificationManager from '../../Components/NotificationsManager/NotificationManager';
 import Simulator from '../../Components/Simulator/Simulator';
 import Tasktracker from '../../Components/Tasktracker/Tasktracker';
+import Calendar from '../../Components/Calendar/Calendar';
 
 
 
@@ -37,6 +38,7 @@ function Homepage() {
       <div className='right-column'>
       <NotificationManager notifications={notifications} onDelete={deleteNotification} onSubmitResponse={handleResponseSubmission}/>
       <Simulator onSubmit={addNotification} setSelectedNotification={setSelectedNotification} />
+      <Calendar />
       </div>
      
     </div>
