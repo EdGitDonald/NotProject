@@ -58,9 +58,10 @@ function Tasktracker({ onTaskCreation }) { // Updated prop name
     setTaskList(updatedTasks);
   };
 
+  // Update the handleDeleteTask function to pass the ID of the deleted task
   const handleDeleteTask = (taskId) => {
-    const updatedSortedTasks = taskList.filter(task => task.id !== taskId);
-    setTaskList(updatedSortedTasks);
+    const updatedTaskList = taskList.filter(task => task.id !== taskId);
+    setTaskList(updatedTaskList); 
   };
 
   const getProgress = (task) => {

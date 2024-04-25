@@ -21,26 +21,39 @@ function Calendar({ tasks }) {
   }, [tasks]);
 
   // Function to generate dates for the current day
-  const generateCurrentDay = () => {
+const generateCurrentDay = () => {
+    const currentDateStr = currentDate.toDateString();
+    const tasksForCurrentDay = tasksByDate[currentDateStr] || [];
+  
     return (
-      <div className='current-day'>{currentDate.toDateString()}</div>
+      <div className='current-day'>
+        <div>{currentDateStr}</div>
+        {tasksForCurrentDay.map((taskName, index) => (
+          <div key={index}>{taskName}</div>
+        ))}
+      </div>
     );
   };
 
-  // Function to generate dates for the current week
-  const generateCurrentWeek = () => {
+ // Function to generate dates for the current week
+const generateCurrentWeek = () => {
     const currentWeek = [];
-
     for (let i = 0; i < 7; i++) {
       const date = new Date(currentDate);
       date.setDate(currentDate.getDate() - currentDate.getDay() + i);
-      currentWeek.push(date.toDateString());
+      const dateStr = date.toDateString();
+      currentWeek.push(dateStr);
     }
 
     return (
-      <div className='current-week'>
+        <div className='current-week'>
         {currentWeek.map((day, index) => (
-          <div key={index}>{day}</div>
+          <div key={index}>
+            <div>{day}</div>
+            {tasksByDate[day] && tasksByDate[day].map((taskName, index) => (
+              <div key={index}>{taskName}</div>
+            ))}
+          </div>
         ))}
       </div>
     );

@@ -34,11 +34,11 @@ function Homepage() {
   const handleTaskCreation = (newTask) => {
     setTaskList([...taskList, newTask]); // Updated state
   };
-
+  
   return (
     <div className='homepage-container'>
       <div className='left-column'>
-        <Tasktracker onTaskCreation={handleTaskCreation} />
+        <Tasktracker onTaskCreation={handleTaskCreation}/>
       </div>
       <div className='right-column'>
         <NotificationManager notifications={notifications} onDelete={deleteNotification} onSubmitResponse={handleResponseSubmission} />
