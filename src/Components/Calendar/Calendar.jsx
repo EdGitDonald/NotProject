@@ -1,23 +1,112 @@
 import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import './Calendar.css';
 
-function CustomCalendar() {
-  const [date, setDate] = useState(new Date());
+function Calendar() {
+  const [view, setView] = useState('month'); // Default view is set to 'month'
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-  const onChange = (newDate) => {
-    setDate(newDate);
+  // Function to generate dates for the current day
+  const generateCurrentDay = () => {
+    return (
+      <div className='current-day'>{currentDate.toDateString()}</div>
+    );
+  };
+
+  // Function to generate dates for the current week
+  const generateCurrentWeek = () => {
+    const currentWeek = [];
+
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(currentDate);
+      date.setDate(currentDate.getDate() - currentDate.getDay() + i);
+      currentWeek.push(date.toDateString());
+    }
+
+    return (
+      <div className='current-week'>
+        {currentWeek.map((day, index) => (
+          <div key={index}>{day}</div>
+        ))}
+      </div>
+    );
+  };
+
+  // Function to generate dates for the current month
+  const generateCurrentMonth = () => {
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); // 0 for Sunday, 1 for Monday, etc.
+    
+    const monthDates = [];
+
+    // Fill in the days before the first day of the month with empty slots
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      monthDates.push('');
+    }
+
+    // Fill in the numbered dates for the month
+    for (let day = 1; day <= daysInMonth; day++) {
+      monthDates.push(new Date(currentYear, currentMonth, day).toDateString());
+    }
+
+    return (
+      <div className='current-month'>
+        {monthDates.map((date, index) => (
+          <div key={index}>{date}</div>
+        ))}
+      </div>
+    );
+  };
+
+  // Function to handle view change
+  const handleViewChange = (newView) => {
+    setView(newView);
+  };
+
+  // Function to handle navigating to the previous week/month
+  const handlePrevious = () => {
+    const previousDate = new Date(currentDate);
+    if (view === 'week') {
+      previousDate.setDate(previousDate.getDate() - 7);
+    } else if (view === 'month') {
+      previousDate.setMonth(previousDate.getMonth() - 1);
+    }
+    setCurrentDate(previousDate);
+  };
+
+  // Function to handle navigating to the next week/month
+  const handleNext = () => {
+    const nextDate = new Date(currentDate);
+    if (view === 'week') {
+      nextDate.setDate(nextDate.getDate() + 7);
+    } else if (view === 'month') {
+      nextDate.setMonth(nextDate.getMonth() + 1);
+    }
+    setCurrentDate(nextDate);
   };
 
   return (
-    <div>
+    <div className='calendar-container'>
       <h2>Calendar</h2>
-      <Calendar
-        onChange={onChange}
-        value={date}
-      />
+      <div className='view-options'>
+        <button onClick={() => handleViewChange('day')}>Day</button>
+        <button onClick={() => handleViewChange('week')}>Week</button>
+        <button onClick={() => handleViewChange('month')}>Month</button>
+        <button onClick={handlePrevious}>Previous</button>
+        <button onClick={handleNext}>Next</button>
+      </div>
+      <div className='calendar-grid'>
+        {view === 'day' && generateCurrentDay()}
+        {view === 'week' && generateCurrentWeek()}
+        {view === 'month' && generateCurrentMonth()}
+      </div>
     </div>
   );
 }
 
-export default CustomCalendar;
+export default Calendar;
+
+
+
+

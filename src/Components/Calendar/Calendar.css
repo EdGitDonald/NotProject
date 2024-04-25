@@ -1,3 +1,40 @@
 .calendar-container{
     border: 1px solid green;
 }
+
+.calendar-container {
+    width: auto;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .view-options {
+    margin-bottom: 10px;
+  }
+  
+  .view-options button {
+    margin-right: 10px;
+  }
+  
+  .calendar-grid {
+    display: grid;
+    gap: 10px;
+  }
+  
+  .current-day, .current-week, .current-month {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+  }
+  
+  .current-week, .current-month {
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+  
+  .current-week div, .current-month div {
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+  }
+  
