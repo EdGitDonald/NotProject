@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Calendar.css';
 
-function Calendar() {
+function Calendar({ tasks }) {
   const [view, setView] = useState('month'); // Default view is set to 'month'
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [tasksByDate, setTasksByDate] = useState({});
+
+  // Update tasksByDate whenever tasks prop changes
+  useEffect(() => {
+    const updatedTasksByDate = {};
+    tasks.forEach((task) => {
+      const taskDate = new Date(task.dueDate).toDateString();
+      if (updatedTasksByDate[taskDate]) {
+        updatedTasksByDate[taskDate].push(task.taskName);
+      } else {
+        updatedTasksByDate[taskDate] = [task.taskName];
+      }
+    });
+    setTasksByDate(updatedTasksByDate);
+  }, [tasks]);
 
   // Function to generate dates for the current day
   const generateCurrentDay = () => {
@@ -53,7 +68,13 @@ function Calendar() {
     return (
       <div className='current-month'>
         {monthDates.map((date, index) => (
-          <div key={index}>{date}</div>
+          <div key={index}>
+            {date}
+            {/* Render tasks for this date */}
+            {tasksByDate[date] && tasksByDate[date].map((taskName, index) => (
+              <div key={index}>{taskName}</div>
+            ))}
+          </div>
         ))}
       </div>
     );
@@ -106,6 +127,8 @@ function Calendar() {
 }
 
 export default Calendar;
+
+
 
 
 

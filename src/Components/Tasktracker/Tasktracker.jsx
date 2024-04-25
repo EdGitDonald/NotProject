@@ -1,39 +1,38 @@
 import React, { useState } from 'react';
 import './Tasktracker.css';
 
-function Tasktracker() {
-  const [tasks, setTasks] = useState([]);
+function Tasktracker({ onTaskCreation }) { // Updated prop name
+  const [taskList, setTaskList] = useState([]);
   const [taskName, setTaskName] = useState('');
   const [steps, setSteps] = useState([]);
   const [dueDate, setDueDate] = useState('');
   const [assignedBy, setAssignedBy] = useState('');
   const [participants, setParticipants] = useState('');
   const [brief, setBrief] = useState('');
-  const [showForm, setShowForm] = useState(false); // State to manage visibility of the form
-  const [newStep, setNewStep] = useState(''); // State to store new step being added
-  const [sortByDate, setSortByDate] = useState(''); // State to determine sorting order
+  const [showForm, setShowForm] = useState(false);
+  const [newStep, setNewStep] = useState('');
+  const [sortByDate, setSortByDate] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Validate taskName (e.g., check if it's not empty)
     if (!taskName.trim()) {
       alert('Please enter a task name');
       return;
     }
-    // Add the new task to the tasks list
     const newTask = {
-      id: Date.now(), // Assign a unique ID to each task (using timestamp)
+      id: Date.now(),
       taskName,
       steps,
       dueDate,
       assignedBy,
       participants,
       brief,
-      originalIndex: tasks.length // Store the original index
+      originalIndex: taskList.length
     };
-    setTasks([...tasks, newTask]);
-    // Reset form fields
+    setTaskList([...taskList, newTask]);
     resetForm();
+    // Call the onTaskCreation function prop with the new task data
+    onTaskCreation(newTask); // Updated prop function call
   };
 
   const resetForm = () => {
@@ -49,44 +48,40 @@ function Tasktracker() {
   const handleAddStep = () => {
     if (newStep.trim()) {
       setSteps([...steps, { name: newStep, completed: false }]);
-      setNewStep(''); // Clear the input field
+      setNewStep('');
     }
   };
 
   const handleToggleStep = (taskIndex, stepIndex) => {
-    const updatedTasks = [...tasks];
+    const updatedTasks = [...taskList];
     updatedTasks[taskIndex].steps[stepIndex].completed = !updatedTasks[taskIndex].steps[stepIndex].completed;
-    setTasks(updatedTasks);
+    setTaskList(updatedTasks);
   };
 
   const handleDeleteTask = (taskId) => {
-    const updatedSortedTasks = sortedTasks.filter(task => task.id !== taskId);
-    setTasks(updatedSortedTasks); // Update the original tasks as well for consistency
+    const updatedSortedTasks = taskList.filter(task => task.id !== taskId);
+    setTaskList(updatedSortedTasks);
   };
 
-  // Progress bar calculation
   const getProgress = (task) => {
     const totalSteps = task.steps.length;
     const completedSteps = task.steps.filter(step => step.completed).length;
     return (totalSteps === 0 ? 0 : (completedSteps / totalSteps) * 100);
   };
 
-  // Sorting function
-  const sortedTasks = sortByDate === 'mostRecent' ? [...tasks].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)) :
-    sortByDate === 'oldest' ? [...tasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)) :
-    tasks;
+  const sortedTasks = sortByDate === 'mostRecent' ? [...taskList].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)) :
+    sortByDate === 'oldest' ? [...taskList].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)) :
+    taskList;
 
   return (
     <div className='tasktracker-container'>
       <h2>Tasktracker</h2>
       <div className='utility-tab'>
-        {/* Dropdown tab */}
         <div className='dropdown-tab'>
           <button onClick={() => setShowForm(!showForm)}>
             {showForm ? 'Hide Form' : 'Show Form'}
           </button>
         </div>
-        {/* Form */}
         {showForm && (
           <form onSubmit={handleSubmit}>
             <input
@@ -96,7 +91,6 @@ function Tasktracker() {
               onChange={(e) => setTaskName(e.target.value)}
               required
             />
-            {/* Steps checkboxes */}
             <div>
               <h3>Steps</h3>
               {steps.map((step, index) => (
@@ -146,12 +140,10 @@ function Tasktracker() {
           </form>
         )}
       </div>
-      {/* Task list */}
       <div className='task-list'>
         <h3>Tasks</h3>
         <div className='filter-section'>
           <h4>Filter</h4>
-          {/* Sorting options */}
           <div>
             <label>
               Sort by Date:
@@ -163,31 +155,28 @@ function Tasktracker() {
             </label>
           </div>
         </div>
-        {/* Task list */}
         <ul>
           {sortedTasks.map((task, taskIndex) => (
             <li key={task.id}>
               <p>{task.taskName} - {task.dueDate}</p>
               <p>Assigned By : {task.assignedBy}</p>
               <p>Brief : {task.brief}</p>
-            <div>
+              <div>
                 <h4>Steps</h4>
-                {tasks[task.originalIndex].steps && tasks[task.originalIndex].steps.map((step, stepIndex) => (
-                <div key={stepIndex}>
-                <input
-                 type='checkbox'
-                 checked={step.completed}
-                 onChange={() => handleToggleStep(task.originalIndex, stepIndex)}
-                />
-                <label>{step.name}</label>
-            </div>
-))}
+                {taskList[task.originalIndex].steps && taskList[task.originalIndex].steps.map((step, stepIndex) => (
+                  <div key={stepIndex}>
+                    <input
+                      type='checkbox'
+                      checked={step.completed}
+                      onChange={() => handleToggleStep(task.originalIndex, stepIndex)}
+                    />
+                    <label>{step.name}</label>
+                  </div>
+                ))}
               </div>
-              {/* Progress bar */}
               <div className='progress-bar'>
                 <div className='progress-bar-fill' style={{ width: `${getProgress(task)}%` }}></div>
               </div>
-              {/* Delete button */}
               <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
             </li>
           ))}
@@ -198,6 +187,7 @@ function Tasktracker() {
 }
 
 export default Tasktracker;
+
 
 
 
