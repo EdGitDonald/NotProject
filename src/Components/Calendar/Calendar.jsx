@@ -12,31 +12,43 @@ function Calendar({ tasks }) {
     tasks.forEach((task) => {
       const taskDate = new Date(task.dueDate).toDateString();
       if (updatedTasksByDate[taskDate]) {
-        updatedTasksByDate[taskDate].push(task.taskName);
+        updatedTasksByDate[taskDate].push(task);
       } else {
-        updatedTasksByDate[taskDate] = [task.taskName];
+        updatedTasksByDate[taskDate] = [task];
       }
     });
     setTasksByDate(updatedTasksByDate);
   }, [tasks]);
 
+  // Function to handle task deletion
+  const handleTaskDelete = (task) => {
+    const updatedTasksByDate = { ...tasksByDate };
+    const taskDate = new Date(task.dueDate).toDateString();
+    const updatedTasks = updatedTasksByDate[taskDate].filter((t) => t.id !== task.id);
+    updatedTasksByDate[taskDate] = updatedTasks;
+    setTasksByDate(updatedTasksByDate);
+  };
+
   // Function to generate dates for the current day
-const generateCurrentDay = () => {
+  const generateCurrentDay = () => {
     const currentDateStr = currentDate.toDateString();
     const tasksForCurrentDay = tasksByDate[currentDateStr] || [];
-  
+
     return (
       <div className='current-day'>
         <div>{currentDateStr}</div>
-        {tasksForCurrentDay.map((taskName, index) => (
-          <div key={index}>{taskName}</div>
+        {tasksForCurrentDay.map((task, index) => (
+          <div key={index}>
+            {task.taskName}
+            <button onClick={() => handleTaskDelete(task)}>Delete</button>
+          </div>
         ))}
       </div>
     );
   };
 
- // Function to generate dates for the current week
-const generateCurrentWeek = () => {
+  // Function to generate dates for the current week
+  const generateCurrentWeek = () => {
     const currentWeek = [];
     for (let i = 0; i < 7; i++) {
       const date = new Date(currentDate);
@@ -46,12 +58,15 @@ const generateCurrentWeek = () => {
     }
 
     return (
-        <div className='current-week'>
+      <div className='current-week'>
         {currentWeek.map((day, index) => (
           <div key={index}>
             <div>{day}</div>
-            {tasksByDate[day] && tasksByDate[day].map((taskName, index) => (
-              <div key={index}>{taskName}</div>
+            {tasksByDate[day] && tasksByDate[day].map((task, index) => (
+              <div key={index}>
+                {task.taskName}
+                <button onClick={() => handleTaskDelete(task)}>Delete</button>
+              </div>
             ))}
           </div>
         ))}
@@ -84,8 +99,11 @@ const generateCurrentWeek = () => {
           <div key={index}>
             {date}
             {/* Render tasks for this date */}
-            {tasksByDate[date] && tasksByDate[date].map((taskName, index) => (
-              <div key={index}>{taskName}</div>
+            {tasksByDate[date] && tasksByDate[date].map((task, index) => (
+              <div key={index}>
+                {task.taskName}
+                <button onClick={() => handleTaskDelete(task)}>Delete</button>
+              </div>
             ))}
           </div>
         ))}
@@ -140,6 +158,11 @@ const generateCurrentWeek = () => {
 }
 
 export default Calendar;
+
+
+
+
+
 
 
 

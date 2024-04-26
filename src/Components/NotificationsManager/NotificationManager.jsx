@@ -121,7 +121,7 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
   return (
     <div className='notificationmanager-container'>
       <div className='notification-container'>
-        <h2>Notification Manager</h2>
+        <h2>NM</h2>
         <div className='search-container'>
           <input
             type='text'
@@ -180,8 +180,6 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
 }
 
 export default NotificationManager;
-
-
 
 
 

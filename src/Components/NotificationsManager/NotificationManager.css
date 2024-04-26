@@ -1,91 +1,171 @@
-.notificationmanager-container{
-    border: 1px solid red;
-    width: auto;
-    height: 360px;
+/* NotificationManager.css */
+.notificationmanager-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-}
-
-.notification-container{
+    align-items: center;
+  }
+  
+  .notification-container {
     display: flex;
     justify-content: space-between;
-}
-
-.urgency-container{
+    width: 100%;
+    /* border: 1px solid red; */
+  }
+  
+  .search-container input[type="text"] {
+    padding: 8px 10px;
+    margin: 5px 5px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    font-size: 14px;
+    width: 300px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  .search-container input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  
+  .urgency-container {
     display: flex;
-    width: 50%;
-    justify-content: space-around;
-}
-
-.box{
-    width: 20px;
-    height: auto;
-    border-radius: 4px 0px 0px 4px;
-    margin-right: 10px;   
-}
-
-.outline{
-    border: 0.5px solid black;
-    border-radius: 4px;
-    display: flex;  
-}
-
-.red{
-    background-color: #b21f1a;
-}
-
-.yellow{
-    background-color: #ecd100;
-}
-
-.green{
-    background-color: #008f00;
-}
-
-.response-container{
+    justify-content: space-between;
+    width: 200px;
+    
+  }
+  
+  .outline {
+    display: flex;
+    align-items: center;
     border: 1px solid black;
-    height: auto;
-    display: flex;
-}
-
-.urgency-table{
-    width: 66%;
-    border: 1px solid blue;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;  
-}
-
-.response-centre{
-    border: 1px black solid;
-    width: 35%;
-}
-
-.notification-card {
-    border: 1px solid red;
-    padding: 10px;
-    margin-bottom: 10px;
-    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+    margin: 5px;
+  }
+  
+  .box {
+    width: 20px;
+    height: 35px;
+    margin-right: 5px;
+    align-content: center;
+  }
+  
+  .red {
+    background-color: #c90c0c;
+  }
+  
+  .yellow {
+    background-color: #fcf000;
+  }
+  
+  .green {
+    background-color: #12c90c;
+  }
+  
+  .urgency-table {
+    border-collapse: collapse;
+    
+  }
+  
+  .urgency-table th,
+  .urgency-table td {
+    padding: 4px;
+    border: 1px solid black; /* Add black border */
+    width: 33.33%; /* Divide the table evenly into three columns */
   }
 
-  .notification-card.selected {
-    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3); /* Add box shadow to highlight selected notification */
+  .urgency-table td{
+    padding: 8px; /* Adjust the padding to change the spacing inside each cell */
+    border: 1px solid black;
+    height: 320px; /* Adjust the height of each cell */
   }
-
+  
+  .response-container {
+    display: flex;
+    /* border: 1px solid blue; */
+    justify-content: space-between;
+    width: 100%;
+  }
+  
   .notification-scrollable {
-    max-height: 300px; /* Adjust as needed */
+    max-height: 300px;
     overflow-y: auto;
   }
-
+  
+  .notification-card {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .notification-card p {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  
+  .notification-card button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .notification-card button:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  .notification-card.selected {
+    background-color: #f0f0f0;
+  }
+  
   .expand-tab {
     cursor: pointer;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .content-box {
+    width: 300px;
     padding: 10px;
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #ccc;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
   }
   
-  .expand-tab:hover {
-    background-color: #e0e0e0;
+  .response-box {
+    margin-top: 20px;
   }
   
+  .response-box textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .response-box button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .response-box button:hover {
+    background-color: #0056b3;
+  }
+
+ 
