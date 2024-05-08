@@ -62,10 +62,10 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
            className={`notification-card ${selectedNotification === notification ? 'selected' : ''}`}
            onClick={() => handleNotificationClick(notification)}
            >
-              <p>Sender: {notification.sender}</p>
-              <p>Message: {notification.message}</p>
-              <p>Priority: {notification.priority}</p>
-              <p>Source: {notification.source}</p>
+              <p> S : {notification.source}</p>
+              <p>{notification.sender}</p>
+              <p>{notification.message}</p>
+              <p>{notification.priority}</p>
               <button onClick={() => onDelete(notification)}>Delete</button>
             </div>
           ))}
@@ -87,10 +87,10 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
         {/* Display selected notification */}
         <div className="content-box">
           <div className="notification-card selected">
+            <p>Source: {selectedNotification.source}</p>
             <p>Sender: {selectedNotification.sender}</p>
             <p>Message: {selectedNotification.message}</p>
             <p>Priority: {selectedNotification.priority}</p>
-            <p>Source: {selectedNotification.source}</p>
             <button onClick={() => onDelete(selectedNotification)}>Delete</button>
           </div>
         </div>
@@ -105,10 +105,10 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
           <div className="notification-scrollable">
             {notificationsFromSender.map((notification, index) => (
               <div key={index} className="notification-card">
+                <p>Source: {notification.source}</p>
                 <p>Sender: {notification.sender}</p>
                 <p>Message: {notification.message}</p>
                 <p>Priority: {notification.priority}</p>
-                <p>Source: {notification.source}</p>
                 <button onClick={() => onDelete(notification)}>Delete</button>
               </div>
             ))}
@@ -121,7 +121,6 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
   return (
     <div className='notificationmanager-container'>
       <div className='notification-container'>
-        <h2>NM</h2>
         <div className='search-container'>
           <input
             type='text'
@@ -132,16 +131,16 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
         </div>
         <div className='urgency-container'>
           <div className='outline'>
-            <p className='box red'></p>
-            <p className='box'>{countNotifications('High')}</p>
+            <p className='box red boxstyle1'></p>
+            <p className='box boxstyle2'>{countNotifications('High')}</p>
           </div>
           <div className='outline'>
-            <p className='box yellow'></p>
-            <p className='box'>{countNotifications('Medium')}</p>
+            <p className='box yellow boxstyle1'></p>
+            <p className='box boxstyle2'>{countNotifications('Medium')}</p>
           </div>
           <div className='outline'>
-            <p className='box green'></p>
-            <p className='box'>{countNotifications('Low')}</p>
+            <p className='box green boxstyle1'></p>
+            <p className='box boxstyle2'>{countNotifications('Low')}</p>
           </div>
         </div>
       </div>
