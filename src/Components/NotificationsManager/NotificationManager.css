@@ -83,12 +83,13 @@
   .response-container {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 98%;
     background-color: white; /* white background */
     color: black; /* White text */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
     padding: 20px;
+    
   }
 
   .urgency-table table {
