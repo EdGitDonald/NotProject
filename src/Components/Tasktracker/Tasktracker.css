@@ -8,10 +8,56 @@
 }
 
 .utility-tab {
-    background-color: #f5f5f5; /* Light grey background */
-    border-radius: 10px; /* Rounded corners */
-    padding: 20px;
-    margin-bottom: 20px;
+  padding: 10px;
+}
+
+.dropdown-tab button {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+.task-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.task-form input,
+.task-form textarea,
+.task-form button {
+  padding: 5px;
+  margin: 5px 0;
+  font-size: 12px;
+}
+
+.task-form textarea {
+  grid-column: span 2;
+}
+
+.steps-section {
+  grid-column: span 2;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.step input {
+  margin-right: 5px;
+}
+
+.task-form h3 {
+  font-size: 14px;
+  margin-bottom: 5px;
+  grid-column: span 2;
+}
+
+.task-form button[type='submit'] {
+  grid-column: span 2;
+  padding: 5px 10px;
 }
 
 .form-container button[type="submit"]:hover {
@@ -23,16 +69,47 @@
     overflow-y: auto;
 }
 
-.progress-bar {
-    width: 100%;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 4px;
-    margin-top: 10px;
+.task-widget {
+    background-color: #f5f5f5; /* Light grey background */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  .task-widget p {
+    margin: 0;
+    font-size: 16px;
+    color: #333; /* Dark text color */
+  }
+
+  .task-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .task-details {
+    margin-bottom: 10px;
+  }
+  
+  .task-steps {
+    margin-bottom: 10px;
+  }
+  
+  .task-steps input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .progress-bar {
+    height: 10px;
+    background-color: #eee; /* Light grey background for progress bar */
+    border-radius: 5px;
+    overflow: hidden; /* Hide overflowing content */
+    margin-bottom: 10px;
   }
   
   .progress-bar-fill {
     height: 100%;
-    background-color: blue; /* Change to red or any other color */
-    border-radius: 4px;
+    background-color: #0070c9; /* Blue color for progress bar fill */
   }
+  

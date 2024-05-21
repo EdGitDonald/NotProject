@@ -1,5 +1,3 @@
-// Homepage.jsx
-
 import React, { useState } from 'react';
 import './Homepage.css'
 import NotificationManager from '../../Components/NotificationsManager/NotificationManager';
@@ -50,3 +48,4 @@ function Homepage() {
 }
 
 export default Homepage;
+

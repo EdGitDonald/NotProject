@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './Calendar.css';
 
 function Calendar({ tasks }) {
-  const [view, setView] = useState('month'); // Default view is set to 'month'
+  const [view, setView] = useState('month');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [tasksByDate, setTasksByDate] = useState({});
 
-  // Update tasksByDate whenever tasks prop changes
   useEffect(() => {
     const updatedTasksByDate = {};
     tasks.forEach((task) => {
-      const taskDate = new Date(task.dueDate).toDateString();
+      const taskDate = new Date(task.dueDate).toLocaleDateString(); // Use toLocaleDateString for consistent formatting
       if (updatedTasksByDate[taskDate]) {
         updatedTasksByDate[taskDate].push(task);
       } else {
@@ -19,17 +18,15 @@ function Calendar({ tasks }) {
     });
     setTasksByDate(updatedTasksByDate);
   }, [tasks]);
+  
 
-  // Function to handle task deletion
   const handleTaskDelete = (task) => {
     const updatedTasksByDate = { ...tasksByDate };
     const taskDate = new Date(task.dueDate).toDateString();
-    const updatedTasks = updatedTasksByDate[taskDate].filter((t) => t.id !== task.id);
-    updatedTasksByDate[taskDate] = updatedTasks;
+    updatedTasksByDate[taskDate] = updatedTasksByDate[taskDate].filter((t) => t.id !== task.id);
     setTasksByDate(updatedTasksByDate);
   };
 
-  // Function to generate dates for the current day
   const generateCurrentDay = () => {
     const currentDateStr = currentDate.toDateString();
     const tasksForCurrentDay = tasksByDate[currentDateStr] || [];
@@ -37,86 +34,95 @@ function Calendar({ tasks }) {
     return (
       <div className='current-day'>
         <div>{currentDateStr}</div>
-        {tasksForCurrentDay.map((task, index) => (
-          <div key={index}>
-            {task.taskName}
-            <button onClick={() => handleTaskDelete(task)}>Delete</button>
-          </div>
-        ))}
+        {tasksByDate[currentDateStr] && tasksByDate[currentDateStr].map((task, index) => (
+  <div key={index}>
+    {task.taskName}
+    <button onClick={() => handleTaskDelete(task)}>Delete</button>
+  </div>
+))}
       </div>
     );
   };
 
-  // Function to generate dates for the current week
   const generateCurrentWeek = () => {
     const currentWeek = [];
+    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  
     for (let i = 0; i < 7; i++) {
       const date = new Date(currentDate);
-      date.setDate(currentDate.getDate() - currentDate.getDay() + i);
+      date.setDate(currentDate.getDate() - currentDate.getDay() + i); // Adjusted to start from Monday
       const dateStr = date.toDateString();
-      currentWeek.push(dateStr);
+      currentWeek.push({ dateStr, dateNumber: date.getDate() });
     }
-
+  
     return (
       <div className='current-week'>
-        {currentWeek.map((day, index) => (
-          <div key={index}>
-            <div>{day}</div>
-            {tasksByDate[day] && tasksByDate[day].map((task, index) => (
-              <div key={index}>
-                {task.taskName}
-                <button onClick={() => handleTaskDelete(task)}>Delete</button>
-              </div>
-            ))}
+        {daysOfWeek.map((day, index) => (
+          <div key={index} className="day-header">{day}</div>
+        ))}
+        {currentWeek.map(({ dateStr, dateNumber }, index) => (
+          <div key={index} className={dateStr ? '' : 'empty'}>
+            {dateStr && (  // Wrap content in a conditional check for dateStr
+              <>
+                <div className="date-number">{dateNumber}</div>
+                {tasksByDate[dateStr] && tasksByDate[dateStr].map((task, index) => (
+                  <div key={index}>
+                    {task.taskName}
+                    <button onClick={() => handleTaskDelete(task)}>Delete</button>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         ))}
       </div>
     );
   };
 
-  // Function to generate dates for the current month
   const generateCurrentMonth = () => {
     const currentMonth = currentDate.getMonth();
     const currentYear = currentDate.getFullYear();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); // 0 for Sunday, 1 for Monday, etc.
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
     
     const monthDates = [];
-
-    // Fill in the days before the first day of the month with empty slots
-    for (let i = 0; i < firstDayOfMonth; i++) {
+    for (let i = 1; i < firstDayOfMonth; i++) {
       monthDates.push('');
     }
-
-    // Fill in the numbered dates for the month
     for (let day = 1; day <= daysInMonth; day++) {
       monthDates.push(new Date(currentYear, currentMonth, day).toDateString());
     }
 
+    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
     return (
       <div className='current-month'>
+        {daysOfWeek.map((day, index) => (
+          <div key={index} className="day-header">{day}</div>
+        ))}
         {monthDates.map((date, index) => (
-          <div key={index}>
-            {date}
-            {/* Render tasks for this date */}
-            {tasksByDate[date] && tasksByDate[date].map((task, index) => (
-              <div key={index}>
+          <div key={index} className={date ? '' : 'empty'}>
+            {date && (
+              <>
+                <div className="date-number">{new Date(date).getDate()}</div>
+                {tasksByDate[date] && tasksByDate[date].map((task, index) => (
+                <div key={index}>
                 {task.taskName}
                 <button onClick={() => handleTaskDelete(task)}>Delete</button>
               </div>
             ))}
+              </>
+            )}
           </div>
         ))}
       </div>
     );
   };
 
-  // Function to handle view change
   const handleViewChange = (newView) => {
     setView(newView);
   };
 
-  // Function to handle navigating to the previous week/month
   const handlePrevious = () => {
     const previousDate = new Date(currentDate);
     if (view === 'week') {
@@ -127,7 +133,6 @@ function Calendar({ tasks }) {
     setCurrentDate(previousDate);
   };
 
-  // Function to handle navigating to the next week/month
   const handleNext = () => {
     const nextDate = new Date(currentDate);
     if (view === 'week') {
@@ -140,13 +145,15 @@ function Calendar({ tasks }) {
 
   return (
     <div className='calendar-container'>
-      <h2>Calendar</h2>
       <div className='view-options'>
         <button onClick={() => handleViewChange('day')}>Day</button>
         <button onClick={() => handleViewChange('week')}>Week</button>
         <button onClick={() => handleViewChange('month')}>Month</button>
         <button onClick={handlePrevious}>Previous</button>
         <button onClick={handleNext}>Next</button>
+      </div>
+      <div className='month-year'>
+        {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}
       </div>
       <div className='calendar-grid'>
         {view === 'day' && generateCurrentDay()}
@@ -158,14 +165,4 @@ function Calendar({ tasks }) {
 }
 
 export default Calendar;
-
-
-
-
-
-
-
-
-
-
 

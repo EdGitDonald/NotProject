@@ -58,7 +58,7 @@ function Simulator({onSubmit}) {
   };
 
   return (
-    <div className='simulator-container' style={{ position: 'fixed', top: '140px', right: '900px', zIndex: '1000' }}>
+    <div className='simulator-container' style={{ position: 'fixed', top: '440px', right: '900px', zIndex: '1000' }}>
       <h2>Notification Generator</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

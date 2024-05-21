@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
+import { ImCross } from "react-icons/im";
 import './NotificationManager.css';
 
 function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [expanded, setExpanded] = useState(false); // State for expand/collapse
+  const [expanded, setExpanded] = useState(false);
   const [response, setResponse] = useState('');
   const [highPriorityCount, setHighPriorityCount] = useState(0);
   const [mediumPriorityCount, setMediumPriorityCount] = useState(0);
-  const [lowPriorityCount, setLowPriorityCount] = useState(0); 
+  const [lowPriorityCount, setLowPriorityCount] = useState(0);
 
   const handleSubmitResponse = (event) => {
     event.preventDefault();
     // Handle response submission logic...
-    // Remove the notification from the urgency table
     switch (selectedNotification.priority) {
       case 'High':
         setHighPriorityCount(highPriorityCount - 1);
@@ -27,14 +27,12 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
       default:
         break;
     }
-    // Clear the selected notification
     setSelectedNotification(null);
   };
-  
 
   const handleNotificationClick = (notification) => {
     setSelectedNotification(notification);
-    setExpanded(false); // Collapse additional notifications when a notification is clicked
+    setExpanded(false);
   };
 
   const handleSearchChange = (event) => {
@@ -54,19 +52,25 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
   const renderNotifications = (priority) => {
     return (
       <div className="notification-scrollable">
-       {filteredNotifications
-         .filter((notification) => notification.priority === priority)
-         .map((notification) => (
-        <div
-           key={notification.id} // Use a unique identifier as the key
-           className={`notification-card ${selectedNotification === notification ? 'selected' : ''}`}
-           onClick={() => handleNotificationClick(notification)}
-           >
-              <p> S : {notification.source}</p>
-              <p>{notification.sender}</p>
-              <p>{notification.message}</p>
-              <p>{notification.priority}</p>
-              <button onClick={() => onDelete(notification)}>Delete</button>
+        {filteredNotifications
+          .filter((notification) => notification.priority === priority)
+          .map((notification) => (
+            <div
+              key={notification.id}
+              className={`notification-card ${selectedNotification === notification ? 'selected' : ''}`}
+              onClick={() => handleNotificationClick(notification)}
+            >
+              <div className="notification-banner">
+                <img src="path/to/logo.png" alt="Logo" className="logo" />
+                <p>{notification.sender}</p>
+                <button onClick={() => onDelete(notification)}><ImCross />
+</button>
+              </div>
+              <div className="notification-content">
+                <p>{notification.message}</p>
+                <p>Source: {notification.source}</p>
+                <p>Priority: {notification.priority}</p>
+              </div>
             </div>
           ))}
       </div>
@@ -77,39 +81,44 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
     if (!selectedNotification) return null;
     const sender = selectedNotification.sender;
     const notificationsFromSender = filteredNotifications.filter((notification) => notification.sender === sender);
-  
+
     const toggleExpand = () => {
       setExpanded(!expanded);
     };
-  
+
     return (
       <div>
-        {/* Display selected notification */}
         <div className="content-box">
           <div className="notification-card selected">
-            <p>Source: {selectedNotification.source}</p>
-            <p>Sender: {selectedNotification.sender}</p>
-            <p>Message: {selectedNotification.message}</p>
-            <p>Priority: {selectedNotification.priority}</p>
-            <button onClick={() => onDelete(selectedNotification)}>Delete</button>
+            <img src="path/to/logo.png" alt="Logo" className="logo" /> {/* Placeholder for logo */}
+            <div>
+              <p>Source: {selectedNotification.source}</p>
+              <p>Sender: {selectedNotification.sender}</p>
+              <p>Message: {selectedNotification.message}</p>
+              <p>Priority: {selectedNotification.priority}</p>
+            </div>
+            <button onClick={() => onDelete(selectedNotification)}><ImCross />
+</button>
           </div>
         </div>
-        {/* Display expand/collapse tab */}
         {notificationsFromSender.length > 1 && (
           <div className="expand-tab" onClick={toggleExpand}>
             <p>{expanded ? 'Collapse' : 'Expand'}</p>
           </div>
         )}
-        {/* Display additional notifications if expanded */}
         {expanded && (
           <div className="notification-scrollable">
             {notificationsFromSender.map((notification, index) => (
               <div key={index} className="notification-card">
-                <p>Source: {notification.source}</p>
-                <p>Sender: {notification.sender}</p>
-                <p>Message: {notification.message}</p>
-                <p>Priority: {notification.priority}</p>
-                <button onClick={() => onDelete(notification)}>Delete</button>
+                <img src="path/to/logo.png" alt="Logo" className="logo" /> {/* Placeholder for logo */}
+                <div>
+                  <p>Source: {notification.source}</p>
+                  <p>Sender: {notification.sender}</p>
+                  <p>Message: {notification.message}</p>
+                  <p>Priority: {notification.priority}</p>
+                </div>
+                <button onClick={() => onDelete(notification)}><ImCross />
+</button>
               </div>
             ))}
           </div>
@@ -117,7 +126,7 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
       </div>
     );
   };
-  
+
   return (
     <div className='notificationmanager-container'>
       <div className='notification-container'>
@@ -147,9 +156,13 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
       <div className='response-container'>
         <div className='urgency-table'>
           <table>
+            <thead>
+              <tr>
                 <th>High</th>
                 <th>Medium</th>
                 <th>Low</th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
                 <td>{renderNotifications('High')}</td>
@@ -165,20 +178,21 @@ function NotificationManager({ notifications, onDelete, onSubmitResponse }) {
             {renderMoreFromSender()}
           </div>
           <div className='response-box'>
-          <textarea
-            value={response}
-            onChange={(e) => setResponse(e.target.value)}
-            placeholder="Write your response..."
-          />
-          <button onClick={handleSubmitResponse}>Submit</button>
-        </div>
+            <textarea
+              value={response}
+              onChange={(e) => setResponse(e.target.value)}
+              placeholder="Write your response..."
+            />
+            <button onClick={handleSubmitResponse}>Submit</button>
           </div>
         </div>
       </div>
+    </div>
   );
 }
 
 export default NotificationManager;
+
 
 
 
